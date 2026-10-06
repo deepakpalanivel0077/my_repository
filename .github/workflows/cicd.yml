@@ -18,19 +18,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Show repository files
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Files:"
-          ls -la
-          echo "All files:"
-          find . -maxdepth 3 -type f
-
       - name: Install dependencies
         run: |
-          python --version
-          python -m pip --version
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
