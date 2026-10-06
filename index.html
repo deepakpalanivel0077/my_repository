@@ -2,496 +2,469 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusERP | Campus Management System</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DAK Institute | Campus ERP</title>
 
 <style>
 :root{
-    --primary:#2563eb;
-    --primary-dark:#1e40af;
-    --bg:#f5f7fb;
-    --card:#ffffff;
-    --text:#172033;
-    --muted:#64748b;
-    --border:#e5e7eb;
-    --success:#16a34a;
-    --danger:#dc2626;
-    --warning:#d97706;
-    --sidebar:#111827;
+ --primary:#2563eb;
+ --primary2:#1d4ed8;
+ --bg:#f1f5f9;
+ --card:#fff;
+ --text:#172033;
+ --muted:#64748b;
+ --border:#e2e8f0;
+ --green:#16a34a;
+ --red:#dc2626;
+ --orange:#ea580c;
+ --sidebar:#0f172a;
 }
-
-*{
-    box-sizing:border-box;
-}
-
+*{box-sizing:border-box}
 body{
-    margin:0;
-    font-family:Inter,Arial,sans-serif;
-    background:var(--bg);
-    color:var(--text);
+ margin:0;
+ font-family:Inter,Segoe UI,Arial,sans-serif;
+ background:var(--bg);
+ color:var(--text);
 }
+button,input,select{font:inherit}
+button{cursor:pointer}
 
-/* SIDEBAR */
+#login{
+ position:fixed;
+ inset:0;
+ background:linear-gradient(135deg,#0f172a,#1d4ed8);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ z-index:999;
+}
+.login-box{
+ width:390px;
+ max-width:92%;
+ background:white;
+ padding:38px;
+ border-radius:18px;
+ box-shadow:0 25px 70px #0005;
+}
+.logo{
+ width:58px;
+ height:58px;
+ background:linear-gradient(135deg,#2563eb,#60a5fa);
+ color:white;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:14px;
+ font-size:28px;
+ font-weight:bold;
+ margin-bottom:18px;
+}
+.login-box h1{margin:0 0 5px}
+.login-box p{color:var(--muted)}
+.login-box input{
+ width:100%;
+ padding:13px;
+ margin:8px 0;
+ border:1px solid var(--border);
+ border-radius:8px;
+}
+.login-btn{
+ width:100%;
+ padding:13px;
+ border:0;
+ border-radius:8px;
+ background:var(--primary);
+ color:white;
+ margin-top:10px;
+}
+.demo{
+ margin-top:15px;
+ padding:10px;
+ background:#eff6ff;
+ color:#1d4ed8;
+ border-radius:8px;
+ font-size:12px;
+}
 
 .sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    width:250px;
-    height:100vh;
-    background:var(--sidebar);
-    color:white;
-    padding:24px 16px;
-    z-index:10;
+ position:fixed;
+ left:0;
+ top:0;
+ bottom:0;
+ width:250px;
+ background:var(--sidebar);
+ color:white;
+ padding:20px 14px;
+ overflow-y:auto;
 }
-
 .brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:10px;
-    margin-bottom:30px;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:10px;
+ margin-bottom:25px;
+}
+.brand-logo{
+ width:43px;
+ height:43px;
+ border-radius:11px;
+ background:linear-gradient(135deg,#2563eb,#60a5fa);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:21px;
+}
+.brand h2{margin:0;font-size:18px}
+.brand small{color:#94a3b8}
+
+.section-title{
+ color:#64748b;
+ font-size:10px;
+ text-transform:uppercase;
+ margin:20px 10px 7px;
+}
+.nav{
+ width:100%;
+ border:0;
+ background:transparent;
+ color:#cbd5e1;
+ padding:11px 12px;
+ margin:2px 0;
+ border-radius:8px;
+ text-align:left;
+ display:flex;
+ align-items:center;
+ gap:11px;
+}
+.nav:hover,.nav.active{
+ background:#2563eb;
+ color:white;
 }
 
-.brand-icon{
-    width:42px;
-    height:42px;
-    border-radius:10px;
-    background:linear-gradient(135deg,#2563eb,#60a5fa);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
-}
-
-.brand h2{
-    margin:0;
-    font-size:19px;
-}
-
-.brand small{
-    color:#94a3b8;
-}
-
-.menu-title{
-    color:#64748b;
-    font-size:11px;
-    text-transform:uppercase;
-    margin:20px 10px 8px;
-}
-
-.nav-item{
-    width:100%;
-    padding:12px;
-    margin:4px 0;
-    border-radius:8px;
-    cursor:pointer;
-    color:#cbd5e1;
-    display:flex;
-    gap:12px;
-    align-items:center;
-    border:0;
-    background:transparent;
-    text-align:left;
-    font-size:14px;
-}
-
-.nav-item:hover,
-.nav-item.active{
-    background:#1d4ed8;
-    color:white;
-}
-
-/* MAIN */
-
-.main{
-    margin-left:250px;
-    min-height:100vh;
-}
-
-/* TOPBAR */
-
+.main{margin-left:250px;min-height:100vh}
 .topbar{
-    height:75px;
-    background:white;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 35px;
+ height:72px;
+ background:white;
+ border-bottom:1px solid var(--border);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 30px;
+ position:sticky;
+ top:0;
+ z-index:5;
 }
-
 .search{
-    width:320px;
-    padding:11px 15px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    outline:none;
+ width:310px;
+ padding:10px 14px;
+ border:1px solid var(--border);
+ border-radius:8px;
+ outline:none;
 }
-
-.profile{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
+.top-actions{display:flex;align-items:center;gap:18px}
+.admin{display:flex;align-items:center;gap:10px}
 .avatar{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:#dbeafe;
-    color:#1d4ed8;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
+ width:39px;
+ height:39px;
+ border-radius:50%;
+ background:#dbeafe;
+ color:#1d4ed8;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:bold;
 }
 
-/* CONTENT */
-
-.content{
-    padding:30px;
+.content{padding:28px}
+.page{display:none}
+.page.active{display:block}
+.header{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:22px;
 }
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-.page-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.page-header h1{
-    margin:0;
-    font-size:25px;
-}
-
-.page-header p{
-    color:var(--muted);
-    margin-top:7px;
-}
-
+.header h1{margin:0;font-size:25px}
+.header p{margin:6px 0;color:var(--muted)}
 .btn{
-    border:0;
-    background:var(--primary);
-    color:white;
-    padding:11px 18px;
-    border-radius:7px;
-    cursor:pointer;
+ background:var(--primary);
+ color:white;
+ border:0;
+ border-radius:7px;
+ padding:10px 16px;
 }
-
-.btn:hover{
-    background:var(--primary-dark);
+.btn:hover{background:var(--primary2)}
+.btn.secondary{
+ background:#e2e8f0;
+ color:#334155;
 }
+.btn.danger{background:var(--red)}
 
-/* KPI */
-
-.kpis{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-    margin-bottom:25px;
+.cards{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:16px;
+ margin-bottom:20px;
 }
-
-.kpi{
-    background:var(--card);
-    padding:20px;
-    border:1px solid var(--border);
-    border-radius:12px;
+.card{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:12px;
+ padding:20px;
 }
-
-.kpi-top{
-    display:flex;
-    justify-content:space-between;
+.stat{
+ display:flex;
+ justify-content:space-between;
+ align-items:flex-start;
 }
-
-.kpi-icon{
-    width:43px;
-    height:43px;
-    border-radius:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#eff6ff;
-    font-size:20px;
+.stat-icon{
+ width:42px;
+ height:42px;
+ border-radius:10px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#eff6ff;
+ font-size:20px;
 }
-
-.kpi h2{
-    margin:15px 0 5px;
-    font-size:28px;
-}
-
-.kpi p{
-    color:var(--muted);
-    margin:0;
-    font-size:13px;
-}
-
-.growth{
-    color:var(--success);
-    font-size:12px;
-}
-
-/* GRID */
+.stat h2{font-size:27px;margin:14px 0 4px}
+.stat p{margin:0;color:var(--muted);font-size:13px}
 
 .grid{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:20px;
+ display:grid;
+ grid-template-columns:2fr 1fr;
+ gap:18px;
 }
+.card h3{margin-top:0}
 
-.card{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:22px;
+.form{
+ background:white;
+ border:1px solid var(--border);
+ border-radius:12px;
+ padding:22px;
+ margin-bottom:18px;
 }
-
-.card h3{
-    margin-top:0;
+.form-grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:14px;
 }
-
-/* TABLE */
+.field label{
+ display:block;
+ font-size:12px;
+ font-weight:600;
+ margin-bottom:6px;
+}
+.field input,.field select{
+ width:100%;
+ padding:10px;
+ border:1px solid var(--border);
+ border-radius:7px;
+ outline:none;
+ background:white;
+}
 
 .table-card{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:12px;
-    overflow:hidden;
+ background:white;
+ border:1px solid var(--border);
+ border-radius:12px;
+ overflow:auto;
 }
-
-.table-header{
-    padding:20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.table-title{
+ padding:18px 20px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
 }
-
 table{
-    width:100%;
-    border-collapse:collapse;
+ width:100%;
+ border-collapse:collapse;
+ min-width:700px;
 }
-
 th,td{
-    padding:14px 18px;
-    text-align:left;
-    border-top:1px solid var(--border);
-    font-size:13px;
+ padding:13px 17px;
+ border-top:1px solid var(--border);
+ text-align:left;
+ font-size:13px;
 }
-
-th{
-    color:var(--muted);
-    background:#fafafa;
-}
-
+th{background:#f8fafc;color:var(--muted)}
 .badge{
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:bold;
+ padding:4px 9px;
+ border-radius:20px;
+ font-size:11px;
+ font-weight:600;
+}
+.green{background:#dcfce7;color:#15803d}
+.red{background:#fee2e2;color:#b91c1c}
+.orange{background:#ffedd5;color:#c2410c}
+.blue{background:#dbeafe;color:#1d4ed8}
+
+.delete{
+ color:var(--red);
+ cursor:pointer;
+ font-size:12px;
 }
 
-.present{
-    background:#dcfce7;
-    color:#15803d;
+.notice{
+ padding:12px 15px;
+ border-radius:8px;
+ background:#eff6ff;
+ color:#1e40af;
+ margin-bottom:18px;
 }
 
-.absent{
-    background:#fee2e2;
-    color:#b91c1c;
+.profile-box{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:18px;
 }
 
-.paid{
-    background:#dcfce7;
-    color:#15803d;
+.info{
+ padding:16px;
+ background:#f8fafc;
+ border-radius:8px;
+}
+.info span{display:block;color:var(--muted);font-size:11px}
+.info strong{display:block;margin-top:5px}
+
+@media(max-width:1050px){
+ .cards{grid-template-columns:repeat(2,1fr)}
+ .grid{grid-template-columns:1fr}
+}
+@media(max-width:750px){
+ .sidebar{display:none}
+ .main{margin-left:0}
+ .content{padding:17px}
+ .topbar{padding:0 15px}
+ .search{width:180px}
+ .cards{grid-template-columns:1fr}
+ .form-grid{grid-template-columns:1fr}
+ .profile-box{grid-template-columns:1fr}
 }
 
-/* FORMS */
-
-.form-card{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:25px;
-    margin-bottom:20px;
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-
-label{
-    display:block;
-    font-size:13px;
-    font-weight:bold;
-    margin-bottom:6px;
-}
-
-input,select{
-    width:100%;
-    padding:11px;
-    border:1px solid var(--border);
-    border-radius:7px;
-    outline:none;
-}
-
-/* MOBILE */
-
-.mobile-menu{
-    display:none;
-}
-
-@media(max-width:1000px){
-
-    .sidebar{
-        width:210px;
-    }
-
-    .main{
-        margin-left:210px;
-    }
-
-    .kpis{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .grid{
-        grid-template-columns:1fr;
-    }
-
-}
-
-@media(max-width:700px){
-
-    .sidebar{
-        display:none;
-    }
-
-    .main{
-        margin-left:0;
-    }
-
-    .topbar{
-        padding:0 15px;
-    }
-
-    .search{
-        width:180px;
-    }
-
-    .content{
-        padding:18px;
-    }
-
-    .kpis{
-        grid-template-columns:1fr;
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .mobile-menu{
-        display:block;
-        border:0;
-        background:none;
-        font-size:22px;
-    }
-
-    table{
-        min-width:650px;
-    }
-
-    .table-card{
-        overflow-x:auto;
-    }
+@media print{
+ .sidebar,.topbar,.btn,.form{display:none!important}
+ .main{margin:0}
+ .content{padding:0}
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+
+<div id="login">
+<div class="login-box">
+
+<div class="logo">D</div>
+
+<h1>DAK Institute</h1>
+<p>Campus Management & ERP System</p>
+
+<input id="username" placeholder="Username" value="admin">
+
+<input id="password" type="password" placeholder="Password" value="admin123">
+
+<button class="login-btn" onclick="login()">
+Sign In
+</button>
+
+<div class="demo">
+Demo account: <b>admin</b> / <b>admin123</b>
+</div>
+
+</div>
+</div>
+
+
 <!-- SIDEBAR -->
 
 <aside class="sidebar">
 
 <div class="brand">
-<div class="brand-icon">🎓</div>
+<div class="brand-logo">D</div>
 <div>
-<h2>CampusERP</h2>
-<small>Management Portal</small>
+<h2>DAK Institute</h2>
+<small>Campus ERP</small>
 </div>
 </div>
 
-<div class="menu-title">Main</div>
+<div class="section-title">Overview</div>
 
-<button class="nav-item active" onclick="showPage('dashboard',this)">
+<button class="nav active" onclick="page('dashboard',this)">
 📊 Dashboard
 </button>
 
-<button class="nav-item" onclick="showPage('students',this)">
+<div class="section-title">Academic</div>
+
+<button class="nav" onclick="page('students',this)">
 👨‍🎓 Students
 </button>
 
-<button class="nav-item" onclick="showPage('staff',this)">
-👨‍🏫 Staff
+<button class="nav" onclick="page('courses',this)">
+📚 Courses
 </button>
 
-<div class="menu-title">Administration</div>
-
-<button class="nav-item" onclick="showPage('attendance',this)">
+<button class="nav" onclick="page('attendance',this)">
 📅 Attendance
 </button>
 
-<button class="nav-item" onclick="showPage('payroll',this)">
+<div class="section-title">Administration</div>
+
+<button class="nav" onclick="page('staff',this)">
+👨‍🏫 Faculty & Staff
+</button>
+
+<button class="nav" onclick="page('fees',this)">
+💳 Student Fees
+</button>
+
+<button class="nav" onclick="page('payroll',this)">
 💰 Payroll
 </button>
 
-<button class="nav-item" onclick="showPage('expenses',this)">
+<button class="nav" onclick="page('expenses',this)">
 💸 Expenses
 </button>
 
-<button class="nav-item" onclick="showPage('reports',this)">
+<div class="section-title">Management</div>
+
+<button class="nav" onclick="page('reports',this)">
 📈 Reports
+</button>
+
+<button class="nav" onclick="page('settings',this)">
+⚙️ Settings
 </button>
 
 </aside>
 
 
-<!-- MAIN -->
-
 <div class="main">
 
-<header class="topbar">
+<!-- TOPBAR -->
 
-<button class="mobile-menu">☰</button>
+<header class="topbar">
 
 <input
 class="search"
 id="search"
-placeholder="Search records..."
-onkeyup="searchTable()"
+placeholder="Search current records..."
+onkeyup="search()"
 >
 
-<div class="profile">
+<div class="top-actions">
 
+<span>🔔</span>
+
+<div class="admin">
 <div>
-<strong>Administrator</strong><br>
+<b>Administrator</b><br>
 <small style="color:#64748b">Super Admin</small>
 </div>
-
 <div class="avatar">A</div>
+</div>
 
 </div>
 
@@ -505,75 +478,59 @@ onkeyup="searchTable()"
 
 <section id="dashboard" class="page active">
 
-<div class="page-header">
-
+<div class="header">
 <div>
-<h1>Dashboard</h1>
-<p>Welcome back. Here's your campus overview.</p>
+<h1>Good morning, Administrator 👋</h1>
+<p>DAK Institute • Academic Year 2026–27</p>
 </div>
 
-<button class="btn" onclick="showPage('students')">
+<button class="btn" onclick="page('students')">
 + Add Student
 </button>
-
 </div>
 
 
-<div class="kpis">
-
-<div class="kpi">
-
-<div class="kpi-top">
-<span>Students</span>
-<div class="kpi-icon">👨‍🎓</div>
-</div>
-
-<h2 id="studentCount">0</h2>
-
-<span class="growth">↑ Active records</span>
-
+<div class="notice">
+🏫 <b>DAK Institute Campus ERP</b> — Centralized academic, HR and financial management.
 </div>
 
 
-<div class="kpi">
+<div class="cards">
 
-<div class="kpi-top">
-<span>Staff Members</span>
-<div class="kpi-icon">👨‍🏫</div>
+<div class="card stat">
+<div>
+<p>Total Students</p>
+<h2 id="studentsCount">0</h2>
+<p>Active students</p>
+</div>
+<div class="stat-icon">👨‍🎓</div>
 </div>
 
+<div class="card stat">
+<div>
+<p>Faculty & Staff</p>
 <h2 id="staffCount">0</h2>
-
-<span class="growth">↑ Current staff</span>
-
+<p>Active employees</p>
+</div>
+<div class="stat-icon">👨‍🏫</div>
 </div>
 
-
-<div class="kpi">
-
-<div class="kpi-top">
-<span>Monthly Payroll</span>
-<div class="kpi-icon">💰</div>
+<div class="card stat">
+<div>
+<p>Attendance</p>
+<h2 id="attendancePercent">0%</h2>
+<p>Overall attendance</p>
+</div>
+<div class="stat-icon">📅</div>
 </div>
 
-<h2>₹<span id="salaryTotal">0</span></h2>
-
-<span class="growth">Staff salary total</span>
-
+<div class="card stat">
+<div>
+<p>Fees Collected</p>
+<h2>₹<span id="feesCollected">0</span></h2>
+<p>Recorded payments</p>
 </div>
-
-
-<div class="kpi">
-
-<div class="kpi-top">
-<span>Total Expenses</span>
-<div class="kpi-icon">💸</div>
-</div>
-
-<h2>₹<span id="expenseTotal">0</span></h2>
-
-<span class="growth">Recorded expenses</span>
-
+<div class="stat-icon">💳</div>
 </div>
 
 </div>
@@ -582,21 +539,39 @@ onkeyup="searchTable()"
 <div class="grid">
 
 <div class="card">
-
 <h3>Attendance Overview</h3>
-
 <canvas id="attendanceChart"></canvas>
-
 </div>
-
 
 <div class="card">
-
-<h3>Expense Summary</h3>
-
-<canvas id="expenseChart"></canvas>
+<h3>Financial Summary</h3>
+<canvas id="financeChart"></canvas>
+</div>
 
 </div>
+
+<br>
+
+<div class="table-card">
+
+<div class="table-title">
+<h3>Recent Activity</h3>
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Activity</th>
+<th>Module</th>
+<th>Date</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="activity"></tbody>
+
+</table>
 
 </div>
 
@@ -607,42 +582,46 @@ onkeyup="searchTable()"
 
 <section id="students" class="page">
 
-<div class="page-header">
-
+<div class="header">
 <div>
 <h1>Student Management</h1>
-<p>Manage student records and academic information.</p>
+<p>Admissions, student profiles and academic records.</p>
+</div>
+<button class="btn" onclick="exportStudents()">Export CSV</button>
 </div>
 
-</div>
 
+<div class="form">
 
-<div class="form-card">
-
-<h3>Add New Student</h3>
+<h3>Register Student</h3>
 
 <div class="form-grid">
 
-<div>
-<label>Student Name</label>
-<input id="sname" placeholder="Enter name">
+<div class="field">
+<label>Admission Number</label>
+<input id="adm" placeholder="DAK2026001">
 </div>
 
-<div>
-<label>Department</label>
-<select id="sdept">
-<option>Computer Science</option>
-<option>Information Technology</option>
-<option>Electronics</option>
-<option>Mechanical</option>
-<option>Civil</option>
-<option>Commerce</option>
+<div class="field">
+<label>Student Name</label>
+<input id="studentName" placeholder="Full name">
+</div>
+
+<div class="field">
+<label>Course</label>
+<select id="studentCourse">
+<option>B.Sc Computer Science</option>
+<option>BCA</option>
+<option>B.Com</option>
+<option>BBA</option>
+<option>BA English</option>
+<option>M.Sc Computer Science</option>
 </select>
 </div>
 
-<div>
+<div class="field">
 <label>Year</label>
-<select id="syear">
+<select id="studentYear">
 <option>1st Year</option>
 <option>2nd Year</option>
 <option>3rd Year</option>
@@ -650,31 +629,39 @@ onkeyup="searchTable()"
 </select>
 </div>
 
+<div class="field">
+<label>Phone</label>
+<input id="studentPhone" placeholder="Mobile number">
+</div>
+
+<div class="field">
+<label>Email</label>
+<input id="studentEmail" type="email" placeholder="student@email.com">
+</div>
+
 </div>
 
 <br>
-
-<button class="btn" onclick="addStudent()">
-Add Student
-</button>
+<button class="btn" onclick="addStudent()">Register Student</button>
 
 </div>
 
 
 <div class="table-card">
 
-<div class="table-header">
-<h3>Student Records</h3>
+<div class="table-title">
+<h3>Student Directory</h3>
 </div>
 
-<table id="studentTable">
+<table id="studentsTable">
 
 <thead>
 <tr>
-<th>ID</th>
+<th>Admission No.</th>
 <th>Name</th>
-<th>Department</th>
+<th>Course</th>
 <th>Year</th>
+<th>Phone</th>
 <th>Action</th>
 </tr>
 </thead>
@@ -688,85 +675,42 @@ Add Student
 </section>
 
 
-<!-- STAFF -->
+<!-- COURSES -->
 
-<section id="staff" class="page">
+<section id="courses" class="page">
 
-<div class="page-header">
-
+<div class="header">
 <div>
-<h1>Staff Management</h1>
-<p>Manage faculty and administrative staff.</p>
+<h1>Courses & Departments</h1>
+<p>Academic programme overview.</p>
+</div>
 </div>
 
+<div class="cards">
+
+<div class="card">
+<h3>B.Sc Computer Science</h3>
+<p>Department of Computer Science</p>
+<strong>3 Years</strong>
 </div>
 
-
-<div class="form-card">
-
-<h3>Add Staff Member</h3>
-
-<div class="form-grid">
-
-<div>
-<label>Name</label>
-<input id="fname" placeholder="Staff name">
+<div class="card">
+<h3>BCA</h3>
+<p>Department of Computer Applications</p>
+<strong>3 Years</strong>
 </div>
 
-<div>
-<label>Role</label>
-<input id="frole" placeholder="Professor / Admin">
+<div class="card">
+<h3>B.Com</h3>
+<p>Department of Commerce</p>
+<strong>3 Years</strong>
 </div>
 
-<div>
-<label>Department</label>
-<input id="fdept" placeholder="Department">
+<div class="card">
+<h3>BBA</h3>
+<p>Department of Management</p>
+<strong>3 Years</strong>
 </div>
-
-</div>
-
-<br>
-
-<div class="form-grid">
-
-<div>
-<label>Monthly Salary</label>
-<input id="fsalary" type="number" placeholder="Salary">
-</div>
-
-</div>
-
-<br>
-
-<button class="btn" onclick="addStaff()">
-Add Staff
-</button>
-
-</div>
-
-
-<div class="table-card">
-
-<div class="table-header">
-<h3>Staff Directory</h3>
-</div>
-
-<table id="staffTable">
-
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Role</th>
-<th>Department</th>
-<th>Salary</th>
-<th>Action</th>
-</tr>
-</thead>
-
-<tbody></tbody>
-
-</table>
 
 </div>
 
@@ -777,54 +721,45 @@ Add Staff
 
 <section id="attendance" class="page">
 
-<div class="page-header">
-
+<div class="header">
 <div>
 <h1>Attendance Management</h1>
-<p>Track daily student and staff attendance.</p>
+<p>Daily student and staff attendance.</p>
+</div>
 </div>
 
-</div>
-
-
-<div class="form-card">
+<div class="form">
 
 <h3>Mark Attendance</h3>
 
 <div class="form-grid">
 
-<div>
+<div class="field">
 <label>Name</label>
-<input id="aname" placeholder="Student / Staff name">
+<input id="attName" placeholder="Student or staff">
 </div>
 
-<div>
+<div class="field">
 <label>Type</label>
-
-<select id="atype">
+<select id="attType">
 <option>Student</option>
 <option>Staff</option>
 </select>
-
 </div>
 
-<div>
+<div class="field">
 <label>Status</label>
-
-<select id="astatus">
+<select id="attStatus">
 <option>Present</option>
 <option>Absent</option>
+<option>Late</option>
 </select>
-
 </div>
 
 </div>
 
 <br>
-
-<button class="btn" onclick="markAttendance()">
-Mark Attendance
-</button>
+<button class="btn" onclick="markAttendance()">Save Attendance</button>
 
 </div>
 
@@ -851,16 +786,116 @@ Mark Attendance
 </section>
 
 
-<!-- PAYROLL -->
+<!-- STAFF -->
 
-<section id="payroll" class="page">
+<section id="staff" class="page">
 
-<div class="page-header">
-
+<div class="header">
 <div>
-<h1>Payroll Management</h1>
-<p>View monthly staff salary information.</p>
+<h1>Faculty & Staff</h1>
+<p>Human resources and employee records.</p>
 </div>
+</div>
+
+<div class="form">
+
+<h3>Add Employee</h3>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Employee ID</label>
+<input id="empId" placeholder="DAKEMP001">
+</div>
+
+<div class="field">
+<label>Name</label>
+<input id="staffName" placeholder="Employee name">
+</div>
+
+<div class="field">
+<label>Designation</label>
+<input id="designation" placeholder="Assistant Professor">
+</div>
+
+<div class="field">
+<label>Department</label>
+<input id="staffDept" placeholder="Computer Science">
+</div>
+
+<div class="field">
+<label>Monthly Salary</label>
+<input id="staffSalary" type="number" placeholder="35000">
+</div>
+
+</div>
+
+<br>
+<button class="btn" onclick="addStaff()">Add Employee</button>
+
+</div>
+
+
+<div class="table-card">
+
+<table id="staffTable">
+
+<thead>
+<tr>
+<th>Employee ID</th>
+<th>Name</th>
+<th>Designation</th>
+<th>Department</th>
+<th>Salary</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- FEES -->
+
+<section id="fees" class="page">
+
+<div class="header">
+<div>
+<h1>Student Fees</h1>
+<p>Track fee collection and pending balances.</p>
+</div>
+</div>
+
+<div class="form">
+
+<h3>Record Fee Payment</h3>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Admission Number</label>
+<input id="feeAdm" placeholder="DAK2026001">
+</div>
+
+<div class="field">
+<label>Student Name</label>
+<input id="feeName" placeholder="Student name">
+</div>
+
+<div class="field">
+<label>Amount Paid</label>
+<input id="feeAmount" type="number" placeholder="25000">
+</div>
+
+</div>
+
+<br>
+<button class="btn" onclick="addFee()">Record Payment</button>
 
 </div>
 
@@ -871,10 +906,65 @@ Mark Attendance
 
 <thead>
 <tr>
-<th>Staff</th>
-<th>Role</th>
+<th>Admission No.</th>
+<th>Student</th>
+<th>Amount</th>
+<th>Date</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="feeTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- PAYROLL -->
+
+<section id="payroll" class="page">
+
+<div class="header">
+<div>
+<h1>Payroll Management</h1>
+<p>Monthly employee salary processing.</p>
+</div>
+</div>
+
+<div class="cards">
+
+<div class="card stat">
+<div>
+<p>Total Payroll</p>
+<h2>₹<span id="payrollTotal">0</span></h2>
+</div>
+<div class="stat-icon">💰</div>
+</div>
+
+<div class="card stat">
+<div>
+<p>Employees</p>
+<h2 id="payrollEmployees">0</h2>
+</div>
+<div class="stat-icon">👥</div>
+</div>
+
+</div>
+
+<div class="table-card">
+
+<table>
+
+<thead>
+<tr>
+<th>Employee</th>
+<th>Designation</th>
 <th>Department</th>
-<th>Monthly Salary</th>
+<th>Basic Salary</th>
+<th>Net Salary</th>
 <th>Status</th>
 </tr>
 </thead>
@@ -892,56 +982,47 @@ Mark Attendance
 
 <section id="expenses" class="page">
 
-<div class="page-header">
-
+<div class="header">
 <div>
 <h1>Expense Management</h1>
-<p>Track and manage campus expenditures.</p>
+<p>Track campus operational expenditure.</p>
+</div>
 </div>
 
-</div>
-
-
-<div class="form-card">
+<div class="form">
 
 <h3>Record Expense</h3>
 
 <div class="form-grid">
 
-<div>
+<div class="field">
 <label>Expense Title</label>
-<input id="etitle" placeholder="Electricity / Equipment">
+<input id="expenseTitle" placeholder="Electricity Bill">
 </div>
 
-<div>
+<div class="field">
 <label>Category</label>
-
-<select id="ecategory">
-<option>Electricity</option>
+<select id="expenseCategory">
+<option>Utilities</option>
 <option>Maintenance</option>
 <option>Equipment</option>
 <option>Transport</option>
 <option>Events</option>
 <option>Other</option>
 </select>
-
 </div>
 
-<div>
+<div class="field">
 <label>Amount</label>
-<input id="eamount" type="number" placeholder="₹ Amount">
+<input id="expenseAmount" type="number" placeholder="10000">
 </div>
 
 </div>
 
 <br>
-
-<button class="btn" onclick="addExpense()">
-Record Expense
-</button>
+<button class="btn" onclick="addExpense()">Save Expense</button>
 
 </div>
-
 
 <div class="table-card">
 
@@ -970,11 +1051,11 @@ Record Expense
 
 <section id="reports" class="page">
 
-<div class="page-header">
+<div class="header">
 
 <div>
 <h1>Reports & Analytics</h1>
-<p>Campus performance summary.</p>
+<p>Institution performance and financial overview.</p>
 </div>
 
 <button class="btn" onclick="window.print()">
@@ -983,35 +1064,33 @@ Record Expense
 
 </div>
 
+<div class="cards">
 
-<div class="kpis">
-
-<div class="kpi">
+<div class="card">
 <p>Total Students</p>
-<h2 id="reportStudents">0</h2>
+<h2 id="rStudents">0</h2>
 </div>
 
-<div class="kpi">
+<div class="card">
 <p>Total Staff</p>
-<h2 id="reportStaff">0</h2>
+<h2 id="rStaff">0</h2>
 </div>
 
-<div class="kpi">
-<p>Total Payroll</p>
-<h2>₹<span id="reportSalary">0</span></h2>
+<div class="card">
+<p>Fees Collected</p>
+<h2>₹<span id="rFees">0</span></h2>
 </div>
 
-<div class="kpi">
-<p>Total Expenses</p>
-<h2>₹<span id="reportExpenses">0</span></h2>
+<div class="card">
+<p>Expenses</p>
+<h2>₹<span id="rExpenses">0</span></h2>
 </div>
 
 </div>
 
 <div class="card">
 
-<h3>Campus Financial Overview</h3>
-
+<h3>Financial Analytics</h3>
 <canvas id="reportChart"></canvas>
 
 </div>
@@ -1019,71 +1098,155 @@ Record Expense
 </section>
 
 
-</main>
+<!-- SETTINGS -->
+
+<section id="settings" class="page">
+
+<div class="header">
+<div>
+<h1>System Settings</h1>
+<p>Institution configuration.</p>
+</div>
+</div>
+
+<div class="profile-box">
+
+<div class="card">
+<h3>Institution</h3>
+
+<div class="info">
+<span>Institution Name</span>
+<strong>DAK Institute</strong>
+</div>
+
+<br>
+
+<div class="info">
+<span>Academic Year</span>
+<strong>2026–27</strong>
+</div>
+
+<br>
+
+<div class="info">
+<span>System</span>
+<strong>Campus Management & ERP</strong>
+</div>
 
 </div>
 
 
+<div class="card">
+
+<h3>Data Management</h3>
+
+<p style="color:#64748b">
+Your demo records are stored locally in this browser.
+</p>
+
+<button class="btn danger" onclick="clearData()">
+Clear All Demo Data
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
 
-/* DATA */
+/* DATABASE */
 
 let students =
-JSON.parse(localStorage.getItem("campus_students") || "[]");
+JSON.parse(localStorage.getItem("dak_students") || "[]");
 
 let staff =
-JSON.parse(localStorage.getItem("campus_staff") || "[]");
-
-let expenses =
-JSON.parse(localStorage.getItem("campus_expenses") || "[]");
+JSON.parse(localStorage.getItem("dak_staff") || "[]");
 
 let attendance =
-JSON.parse(localStorage.getItem("campus_attendance") || "[]");
+JSON.parse(localStorage.getItem("dak_attendance") || "[]");
+
+let fees =
+JSON.parse(localStorage.getItem("dak_fees") || "[]");
+
+let expenses =
+JSON.parse(localStorage.getItem("dak_expenses") || "[]");
+
+
+/* LOGIN */
+
+function login(){
+
+let user=document.getElementById("username").value;
+let pass=document.getElementById("password").value;
+
+if(user==="admin" && pass==="admin123"){
+
+document.getElementById("login").style.display="none";
+
+}else{
+
+alert("Invalid login.\nDemo: admin / admin123");
+
+}
+
+}
 
 
 /* NAVIGATION */
 
-function showPage(page, button){
+function page(id,button){
 
 document.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
+.forEach(x=>x.classList.remove("active"));
 
-document.getElementById(page)
+document.getElementById(id)
 .classList.add("active");
 
-document.querySelectorAll(".nav-item")
-.forEach(b=>b.classList.remove("active"));
+document.querySelectorAll(".nav")
+.forEach(x=>x.classList.remove("active"));
 
-if(button)
-button.classList.add("active");
+if(button) button.classList.add("active");
 
 render();
 
 }
 
 
-/* STORAGE */
+/* SAVE */
 
 function save(){
 
 localStorage.setItem(
-"campus_students",
+"dak_students",
 JSON.stringify(students)
 );
 
 localStorage.setItem(
-"campus_staff",
+"dak_staff",
 JSON.stringify(staff)
 );
 
 localStorage.setItem(
-"campus_expenses",
-JSON.stringify(expenses)
+"dak_attendance",
+JSON.stringify(attendance)
 );
 
 localStorage.setItem(
-"campus_attendance",
-JSON.stringify(attendance)
+"dak_fees",
+JSON.stringify(fees)
+);
+
+localStorage.setItem(
+"dak_expenses",
+JSON.stringify(expenses)
 );
 
 render();
@@ -1091,30 +1254,34 @@ render();
 }
 
 
-/* STUDENTS */
+/* STUDENT */
 
 function addStudent(){
 
-let name=document.getElementById("sname").value;
-let dept=document.getElementById("sdept").value;
-let year=document.getElementById("syear").value;
+let s={
+id:Date.now(),
+adm:document.getElementById("adm").value,
+name:document.getElementById("studentName").value,
+course:document.getElementById("studentCourse").value,
+year:document.getElementById("studentYear").value,
+phone:document.getElementById("studentPhone").value,
+email:document.getElementById("studentEmail").value
+};
 
-if(!name){
+if(!s.adm || !s.name){
 
-alert("Please enter student name");
+alert("Admission number and name are required.");
 
 return;
 
 }
 
-students.push({
-id:Date.now(),
-name:name,
-department:dept,
-year:year
-});
+students.push(s);
 
-document.getElementById("sname").value="";
+document.getElementById("adm").value="";
+document.getElementById("studentName").value="";
+document.getElementById("studentPhone").value="";
+document.getElementById("studentEmail").value="";
 
 save();
 
@@ -1123,11 +1290,13 @@ save();
 
 function deleteStudent(id){
 
-students=students.filter(
-s=>s.id!==id
-);
+if(confirm("Delete this student?")){
+
+students=students.filter(x=>x.id!==id);
 
 save();
+
+}
 
 }
 
@@ -1136,28 +1305,24 @@ save();
 
 function addStaff(){
 
-let name=document.getElementById("fname").value;
-let role=document.getElementById("frole").value;
-let dept=document.getElementById("fdept").value;
-let salary=Number(
-document.getElementById("fsalary").value
-);
+let s={
+id:Date.now(),
+emp:document.getElementById("empId").value,
+name:document.getElementById("staffName").value,
+designation:document.getElementById("designation").value,
+dept:document.getElementById("staffDept").value,
+salary:Number(document.getElementById("staffSalary").value)
+};
 
-if(!name || !salary){
+if(!s.emp || !s.name || !s.salary){
 
-alert("Enter staff name and salary");
+alert("Employee ID, name and salary are required.");
 
 return;
 
 }
 
-staff.push({
-id:Date.now(),
-name:name,
-role:role,
-department:dept,
-salary:salary
-});
+staff.push(s);
 
 save();
 
@@ -1166,56 +1331,13 @@ save();
 
 function deleteStaff(id){
 
-staff=staff.filter(
-s=>s.id!==id
-);
+if(confirm("Delete this employee?")){
+
+staff=staff.filter(x=>x.id!==id);
 
 save();
 
 }
-
-
-/* EXPENSES */
-
-function addExpense(){
-
-let title=document.getElementById("etitle").value;
-let category=document.getElementById("ecategory").value;
-let amount=Number(
-document.getElementById("eamount").value
-);
-
-if(!title || !amount){
-
-alert("Enter expense details");
-
-return;
-
-}
-
-expenses.push({
-id:Date.now(),
-title:title,
-category:category,
-amount:amount,
-date:new Date().toLocaleDateString()
-});
-
-document.getElementById("etitle").value="";
-document.getElementById("eamount").value="";
-
-save();
-
-}
-
-
-function deleteExpense(id){
-
-expenses=expenses.filter(
-e=>e.id!==id
-);
-
-save();
 
 }
 
@@ -1224,26 +1346,93 @@ save();
 
 function markAttendance(){
 
-let name=document.getElementById("aname").value;
-let type=document.getElementById("atype").value;
-let status=document.getElementById("astatus").value;
+let a={
+name:document.getElementById("attName").value,
+type:document.getElementById("attType").value,
+status:document.getElementById("attStatus").value,
+date:new Date().toLocaleDateString()
+};
 
-if(!name){
+if(!a.name){
 
-alert("Enter name");
+alert("Enter a name.");
 
 return;
 
 }
 
-attendance.push({
-name:name,
-type:type,
-status:status,
-date:new Date().toLocaleDateString()
-});
+attendance.push(a);
 
-document.getElementById("aname").value="";
+document.getElementById("attName").value="";
+
+save();
+
+}
+
+
+/* FEES */
+
+function addFee(){
+
+let f={
+adm:document.getElementById("feeAdm").value,
+name:document.getElementById("feeName").value,
+amount:Number(document.getElementById("feeAmount").value),
+date:new Date().toLocaleDateString()
+};
+
+if(!f.adm || !f.name || !f.amount){
+
+alert("Enter complete fee details.");
+
+return;
+
+}
+
+fees.push(f);
+
+document.getElementById("feeAdm").value="";
+document.getElementById("feeName").value="";
+document.getElementById("feeAmount").value="";
+
+save();
+
+}
+
+
+/* EXPENSE */
+
+function addExpense(){
+
+let e={
+id:Date.now(),
+title:document.getElementById("expenseTitle").value,
+category:document.getElementById("expenseCategory").value,
+amount:Number(document.getElementById("expenseAmount").value),
+date:new Date().toLocaleDateString()
+};
+
+if(!e.title || !e.amount){
+
+alert("Enter expense details.");
+
+return;
+
+}
+
+expenses.push(e);
+
+document.getElementById("expenseTitle").value="";
+document.getElementById("expenseAmount").value="";
+
+save();
+
+}
+
+
+function deleteExpense(id){
+
+expenses=expenses.filter(x=>x.id!==id);
 
 save();
 
@@ -1254,230 +1443,267 @@ save();
 
 function render(){
 
-/* STUDENTS */
+/* COUNTS */
 
-let studentHTML="";
+document.getElementById("studentsCount").innerText=students.length;
 
-students.forEach((s,i)=>{
+document.getElementById("staffCount").innerText=staff.length;
 
-studentHTML+=`
 
+/* ATTENDANCE */
+
+let present=attendance.filter(
+x=>x.status==="Present"
+).length;
+
+let total=attendance.length;
+
+let percent=total?
+Math.round(present/total*100):0;
+
+document.getElementById("attendancePercent")
+.innerText=percent+"%";
+
+
+/* FEES */
+
+let feeTotal=fees.reduce(
+(a,b)=>a+Number(b.amount),0
+);
+
+document.getElementById("feesCollected")
+.innerText=feeTotal.toLocaleString();
+
+
+/* STUDENT TABLE */
+
+let st="";
+
+students.forEach(x=>{
+
+st+=`
 <tr>
-
-<td>${i+1}</td>
-<td>${s.name}</td>
-<td>${s.department}</td>
-<td>${s.year}</td>
-
+<td>${x.adm}</td>
+<td><b>${x.name}</b></td>
+<td>${x.course}</td>
+<td>${x.year}</td>
+<td>${x.phone||"-"}</td>
 <td>
-
-<span
-class="delete"
-style="color:#dc2626;cursor:pointer"
-onclick="deleteStudent(${s.id})">
-
+<span class="delete"
+onclick="deleteStudent(${x.id})">
 Delete
-
 </span>
-
 </td>
-
 </tr>
-
 `;
 
 });
 
-document.querySelector("#studentTable tbody")
-.innerHTML=studentHTML;
+document.querySelector("#studentsTable tbody")
+.innerHTML=st;
 
 
-/* STAFF */
+/* STAFF TABLE */
 
-let staffHTML="";
+let sf="";
 
-staff.forEach((s,i)=>{
+staff.forEach(x=>{
 
-staffHTML+=`
-
+sf+=`
 <tr>
-
-<td>${i+1}</td>
-<td>${s.name}</td>
-<td>${s.role}</td>
-<td>${s.department}</td>
-<td>₹${Number(s.salary).toLocaleString()}</td>
-
+<td>${x.emp}</td>
+<td><b>${x.name}</b></td>
+<td>${x.designation}</td>
+<td>${x.dept}</td>
+<td>₹${x.salary.toLocaleString()}</td>
 <td>
-
-<span
-style="color:#dc2626;cursor:pointer"
-onclick="deleteStaff(${s.id})">
-
+<span class="delete"
+onclick="deleteStaff(${x.id})">
 Delete
-
 </span>
-
 </td>
-
 </tr>
-
 `;
 
 });
 
 document.querySelector("#staffTable tbody")
-.innerHTML=staffHTML;
+.innerHTML=sf;
 
 
-/* PAYROLL */
+/* ATTENDANCE TABLE */
 
-let payrollHTML="";
+let at="";
 
-staff.forEach(s=>{
+attendance.slice().reverse()
+.forEach(x=>{
 
-payrollHTML+=`
+let cls=
+x.status==="Present"?"green":
+x.status==="Absent"?"red":"orange";
 
+at+=`
 <tr>
-
-<td>${s.name}</td>
-<td>${s.role}</td>
-<td>${s.department}</td>
-<td>₹${Number(s.salary).toLocaleString()}</td>
-
+<td>${x.name}</td>
+<td>${x.type}</td>
 <td>
-<span class="badge paid">
-Active
+<span class="badge ${cls}">
+${x.status}
 </span>
 </td>
-
+<td>${x.date}</td>
 </tr>
-
-`;
-
-});
-
-document.getElementById("payrollTable")
-.innerHTML=payrollHTML;
-
-
-/* EXPENSES */
-
-let expenseHTML="";
-
-expenses.forEach(e=>{
-
-expenseHTML+=`
-
-<tr>
-
-<td>${e.title}</td>
-<td>${e.category}</td>
-<td>₹${Number(e.amount).toLocaleString()}</td>
-<td>${e.date}</td>
-
-<td>
-
-<span
-style="color:#dc2626;cursor:pointer"
-onclick="deleteExpense(${e.id})">
-
-Delete
-
-</span>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-document.getElementById("expenseTable")
-.innerHTML=expenseHTML;
-
-
-/* ATTENDANCE */
-
-let attendanceHTML="";
-
-attendance.slice().reverse().forEach(a=>{
-
-attendanceHTML+=`
-
-<tr>
-
-<td>${a.name}</td>
-<td>${a.type}</td>
-
-<td>
-
-<span class="badge ${
-a.status==="Present" ? "present":"absent"
-}">
-
-${a.status}
-
-</span>
-
-</td>
-
-<td>${a.date}</td>
-
-</tr>
-
 `;
 
 });
 
 document.getElementById("attendanceTable")
-.innerHTML=attendanceHTML;
+.innerHTML=at;
 
 
-/* DASHBOARD */
+/* FEES TABLE */
 
-let salaryTotal=staff.reduce(
+let ft="";
+
+fees.slice().reverse()
+.forEach(x=>{
+
+ft+=`
+<tr>
+<td>${x.adm}</td>
+<td>${x.name}</td>
+<td>₹${x.amount.toLocaleString()}</td>
+<td>${x.date}</td>
+<td>
+<span class="badge green">Paid</span>
+</td>
+</tr>
+`;
+
+});
+
+document.getElementById("feeTable")
+.innerHTML=ft;
+
+
+/* PAYROLL */
+
+let payroll=staff.reduce(
 (a,b)=>a+Number(b.salary),0
 );
+
+document.getElementById("payrollTotal")
+.innerText=payroll.toLocaleString();
+
+document.getElementById("payrollEmployees")
+.innerText=staff.length;
+
+let pt="";
+
+staff.forEach(x=>{
+
+pt+=`
+<tr>
+<td>${x.name}</td>
+<td>${x.designation}</td>
+<td>${x.dept}</td>
+<td>₹${x.salary.toLocaleString()}</td>
+<td>₹${x.salary.toLocaleString()}</td>
+<td>
+<span class="badge green">Processed</span>
+</td>
+</tr>
+`;
+
+});
+
+document.getElementById("payrollTable")
+.innerHTML=pt;
+
+
+/* EXPENSES */
+
+let et="";
+
+expenses.slice().reverse()
+.forEach(x=>{
+
+et+=`
+<tr>
+<td>${x.title}</td>
+<td>${x.category}</td>
+<td>₹${x.amount.toLocaleString()}</td>
+<td>${x.date}</td>
+<td>
+<span class="delete"
+onclick="deleteExpense(${x.id})">
+Delete
+</span>
+</td>
+</tr>
+`;
+
+});
+
+document.getElementById("expenseTable")
+.innerHTML=et;
+
+
+/* REPORT */
 
 let expenseTotal=expenses.reduce(
 (a,b)=>a+Number(b.amount),0
 );
 
-document.getElementById("studentCount")
+document.getElementById("rStudents")
 .innerText=students.length;
 
-document.getElementById("staffCount")
+document.getElementById("rStaff")
 .innerText=staff.length;
 
-document.getElementById("salaryTotal")
-.innerText=salaryTotal.toLocaleString();
+document.getElementById("rFees")
+.innerText=feeTotal.toLocaleString();
 
-document.getElementById("expenseTotal")
+document.getElementById("rExpenses")
 .innerText=expenseTotal.toLocaleString();
 
 
-/* REPORT */
+/* ACTIVITY */
 
-document.getElementById("reportStudents")
-.innerText=students.length;
+let activity=document.getElementById("activity");
 
-document.getElementById("reportStaff")
-.innerText=staff.length;
+let rows=[];
 
-document.getElementById("reportSalary")
-.innerText=salaryTotal.toLocaleString();
+students.slice(-3).forEach(x=>{
+rows.push(`
+<tr>
+<td>Student registered</td>
+<td>Students</td>
+<td>${new Date().toLocaleDateString()}</td>
+<td><span class="badge green">Completed</span></td>
+</tr>
+`);
+});
 
-document.getElementById("reportExpenses")
-.innerText=expenseTotal.toLocaleString();
+staff.slice(-3).forEach(x=>{
+rows.push(`
+<tr>
+<td>Employee added</td>
+<td>HR</td>
+<td>${new Date().toLocaleDateString()}</td>
+<td><span class="badge green">Completed</span></td>
+</tr>
+`);
+});
+
+activity.innerHTML=rows.join("");
 
 }
 
 
 /* SEARCH */
 
-function searchTable(){
+function search(){
 
 let value=
 document.getElementById("search")
@@ -1488,11 +1714,62 @@ document.querySelectorAll("tbody tr")
 
 row.style.display=
 row.innerText.toLowerCase()
-.includes(value)
-? ""
-:"none";
+.includes(value)?"":"none";
 
 });
+
+}
+
+
+/* EXPORT STUDENTS */
+
+function exportStudents(){
+
+let csv="Admission,Name,Course,Year,Phone,Email\n";
+
+students.forEach(x=>{
+
+csv+=
+`"${x.adm}","${x.name}","${x.course}","${x.year}","${x.phone}","${x.email}"\n`;
+
+});
+
+let blob=new Blob([csv],{
+type:"text/csv"
+});
+
+let url=URL.createObjectURL(blob);
+
+let a=document.createElement("a");
+
+a.href=url;
+a.download="DAK_Institute_Students.csv";
+a.click();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* CLEAR DATA */
+
+function clearData(){
+
+if(!confirm(
+"Delete ALL Campus ERP data from this browser?"
+)) return;
+
+localStorage.clear();
+
+students=[];
+staff=[];
+attendance=[];
+fees=[];
+expenses=[];
+
+render();
+
+alert("All demo data has been cleared.");
 
 }
 
@@ -1503,56 +1780,45 @@ new Chart(
 document.getElementById("attendanceChart"),
 {
 type:"doughnut",
-
 data:{
-labels:["Present","Absent"],
-
+labels:["Present","Absent","Late"],
 datasets:[{
-data:[70,30],
+data:[70,20,10],
 backgroundColor:[
 "#16a34a",
-"#dc2626"
+"#dc2626",
+"#ea580c"
 ]
 }]
 },
-
 options:{
-responsive:true
+plugins:{
+legend:{position:"bottom"}
 }
-
+}
 });
 
 
 new Chart(
-document.getElementById("expenseChart"),
+document.getElementById("financeChart"),
 {
 type:"doughnut",
-
 data:{
-labels:[
-"Electricity",
-"Maintenance",
-"Equipment",
-"Transport",
-"Events"
-],
-
+labels:["Payroll","Expenses","Balance"],
 datasets:[{
-data:[35,20,25,10,10],
+data:[40,20,40],
 backgroundColor:[
 "#2563eb",
-"#7c3aed",
-"#f59e0b",
-"#10b981",
-"#ef4444"
+"#ea580c",
+"#16a34a"
 ]
 }]
 },
-
 options:{
-responsive:true
+plugins:{
+legend:{position:"bottom"}
 }
-
+}
 });
 
 
@@ -1560,29 +1826,26 @@ new Chart(
 document.getElementById("reportChart"),
 {
 type:"bar",
-
 data:{
-labels:[
-"Payroll",
-"Expenses"
-],
-
+labels:["Fees Collected","Payroll","Expenses"],
 datasets:[{
-label:"Amount",
-
-data:[0,0],
-
+label:"Amount (₹)",
+data:[0,0,0],
 backgroundColor:[
+"#16a34a",
 "#2563eb",
-"#f59e0b"
+"#ea580c"
 ]
 }]
 },
-
 options:{
-responsive:true
+responsive:true,
+scales:{
+y:{
+beginAtZero:true
 }
-
+}
+}
 });
 
 
