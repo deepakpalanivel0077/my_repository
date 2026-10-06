@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Campus Management System</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f1f5f9;
+    color:#1e293b;
+}
+
+header{
+    background:linear-gradient(135deg,#172554,#2563eb);
+    color:white;
+    padding:25px;
+    text-align:center;
+}
+
+nav{
+    background:#172554;
+    padding:15px;
+    text-align:center;
+}
+
+nav button{
+    background:none;
+    border:0;
+    color:white;
+    margin:5px;
+    padding:10px;
+    cursor:pointer;
+}
+
+.container{
+    width:90%;
+    max-width:1100px;
+    margin:30px auto;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    text-align:center;
+    border-radius:12px;
+    box-shadow:0 3px 10px #ddd;
+}
+
+.card h2{
+    color:#2563eb;
+}
+
+.box{
+    background:white;
+    padding:25px;
+    margin-top:25px;
+    border-radius:12px;
+    box-shadow:0 3px 10px #ddd;
+}
+
+input,select{
+    padding:10px;
+    margin:5px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button.add{
+    background:#2563eb;
+    color:white;
+    border:0;
+    padding:11px 18px;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th,td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    background:#eff6ff;
+}
+
+.delete{
+    color:red;
+    cursor:pointer;
+}
+
+.page{
+    display:none;
+}
+
+.active{
+    display:block;
+}
+
+@media(max-width:700px){
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎓 Campus Management System</h1>
+<p>Complete Campus Administration</p>
+</header>
+
+<nav>
+<button onclick="showPage('dashboard')">📊 Dashboard</button>
+<button onclick="showPage('students')">👨‍🎓 Students</button>
+<button onclick="showPage('staff')">👨‍🏫 Staff</button>
+<button onclick="showPage('salary')">💰 Salary</button>
+<button onclick="showPage('expenses')">💸 Expenses</button>
+<button onclick="showPage('attendance')">🕐 Attendance</button>
+</nav>
+
+<div class="container">
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="page active">
+
+<div class="cards">
+
+<div class="card">
+<h2 id="studentCount">0</h2>
+<p>Students</p>
+</div>
+
+<div class="card">
+<h2 id="staffCount">0</h2>
+<p>Staff</p>
+</div>
+
+<div class="card">
+<h2>₹<span id="salaryTotal">0</span></h2>
+<p>Monthly Salary</p>
+</div>
+
+<div class="card">
+<h2>₹<span id="expenseTotal">0</span></h2>
+<p>Total Expenses</p>
+</div>
+
+</div>
+
+<div class="box">
+<h2>Welcome 👋</h2>
+<p>
+Campus Management System manages students,
+staff, salary, expenses and attendance.
+</p>
+</div>
+
+</div>
+
+
+<!-- STUDENTS -->
+
+<div id="students" class="page">
+
+<div class="box">
+
+<h2>👨‍🎓 Student Management</h2>
+
+<input id="studentName" placeholder="Student Name">
+
+<input id="studentDept" placeholder="Department">
+
+<select id="studentYear">
+<option>1st Year</option>
+<option>2nd Year</option>
+<option>3rd Year</option>
+<option>4th Year</option>
+</select>
+
+<button class="add" onclick="addStudent()">
+Add Student
+</button>
+
+</div>
+
+<div class="box">
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Department</th>
+<th>Year</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="studentTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- STAFF -->
+
+<div id="staff" class="page">
+
+<div class="box">
+
+<h2>👨‍🏫 Staff Management</h2>
+
+<input id="staffName" placeholder="Staff Name">
+
+<input id="staffRole" placeholder="Role">
+
+<input id="staffDept" placeholder="Department">
+
+<input id="staffSalary"
+type="number"
+placeholder="Monthly Salary">
+
+<button class="add" onclick="addStaff()">
+Add Staff
+</button>
+
+</div>
+
+<div class="box">
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Role</th>
+<th>Department</th>
+<th>Salary</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="staffTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- SALARY -->
+
+<div id="salary" class="page">
+
+<div class="box">
+
+<h2>💰 Salary Management</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Staff</th>
+<th>Role</th>
+<th>Department</th>
+<th>Salary</th>
+</tr>
+</thead>
+
+<tbody id="salaryTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- EXPENSE -->
+
+<div id="expenses" class="page">
+
+<div class="box">
+
+<h2>💸 Expense Management</h2>
+
+<input id="expenseTitle"
+placeholder="Expense">
+
+<select id="expenseCategory">
+<option>Electricity</option>
+<option>Maintenance</option>
+<option>Equipment</option>
+<option>Transport</option>
+<option>Events</option>
+<option>Other</option>
+</select>
+
+<input id="expenseAmount"
+type="number"
+placeholder="Amount">
+
+<button class="add" onclick="addExpense()">
+Add Expense
+</button>
+
+</div>
+
+<div class="box">
+
+<table>
+
+<thead>
+<tr>
+<th>Expense</th>
+<th>Category</th>
+<th>Amount</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="expenseTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- ATTENDANCE -->
+
+<div id="attendance" class="page">
+
+<div class="box">
+
+<h2>🕐 Attendance</h2>
+
+<input id="attendanceName"
+placeholder="Student / Staff Name">
+
+<select id="attendanceType">
+<option>Student</option>
+<option>Staff</option>
+</select>
+
+<select id="attendanceStatus">
+<option>Present</option>
+<option>Absent</option>
+</select>
+
+<button class="add" onclick="markAttendance()">
+Mark Attendance
+</button>
+
+</div>
+
+<div class="box">
+
+<table>
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Status</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody id="attendanceTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let students =
+JSON.parse(localStorage.getItem("students") || "[]");
+
+let staff =
+JSON.parse(localStorage.getItem("staff") || "[]");
+
+let expenses =
+JSON.parse(localStorage.getItem("expenses") || "[]");
+
+let attendance =
+JSON.parse(localStorage.getItem("attendance") || "[]");
+
+
+function save(){
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+localStorage.setItem(
+"staff",
+JSON.stringify(staff)
+);
+
+localStorage.setItem(
+"expenses",
+JSON.stringify(expenses)
+);
+
+localStorage.setItem(
+"attendance",
+JSON.stringify(attendance)
+);
+
+render();
+
+}
+
+
+function showPage(page){
+
+document.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
+
+document.getElementById(page)
+.classList.add("active");
+
+render();
+
+}
+
+
+function addStudent(){
+
+let name =
+document.getElementById("studentName").value;
+
+let dept =
+document.getElementById("studentDept").value;
+
+let year =
+document.getElementById("studentYear").value;
+
+if(!name || !dept){
+
+alert("Please enter student details");
+
+return;
+
+}
+
+students.push({
+
+id:Date.now(),
+name:name,
+department:dept,
+year:year
+
+});
+
+document.getElementById("studentName").value="";
+document.getElementById("studentDept").value="";
+
+save();
+
+}
+
+
+function deleteStudent(id){
+
+students =
+students.filter(s=>s.id!==id);
+
+save();
+
+}
+
+
+function addStaff(){
+
+let name =
+document.getElementById("staffName").value;
+
+let role =
+document.getElementById("staffRole").value;
+
+let dept =
+document.getElementById("staffDept").value;
+
+let salary =
+Number(document.getElementById("staffSalary").value);
+
+if(!name || !role || !salary){
+
+alert("Please enter staff details");
+
+return;
+
+}
+
+staff.push({
+
+id:Date.now(),
+name:name,
+role:role,
+department:dept,
+salary:salary
+
+});
+
+save();
+
+}
+
+
+function deleteStaff(id){
+
+staff =
+staff.filter(s=>s.id!==id);
+
+save();
+
+}
+
+
+function addExpense(){
+
+let title =
+document.getElementById("expenseTitle").value;
+
+let category =
+document.getElementById("expenseCategory").value;
+
+let amount =
+Number(document.getElementById("expenseAmount").value);
+
+if(!title || !amount){
+
+alert("Enter expense details");
+
+return;
+
+}
+
+expenses.push({
+
+id:Date.now(),
+title:title,
+category:category,
+amount:amount
+
+});
+
+save();
+
+}
+
+
+function deleteExpense(id){
+
+expenses =
+expenses.filter(e=>e.id!==id);
+
+save();
+
+}
+
+
+function markAttendance(){
+
+let name =
+document.getElementById("attendanceName").value;
+
+let type =
+document.getElementById("attendanceType").value;
+
+let status =
+document.getElementById("attendanceStatus").value;
+
+if(!name){
+
+alert("Enter name");
+
+return;
+
+}
+
+attendance.push({
+
+name:name,
+type:type,
+status:status,
+date:new Date().toLocaleDateString()
+
+});
+
+save();
+
+}
+
+
+function render(){
+
+/* Students */
+
+let st="";
+
+students.forEach((s,i)=>{
+
+st+=`
+
+<tr>
+
+<td>${i+1}</td>
+<td>${s.name}</td>
+<td>${s.department}</td>
+<td>${s.year}</td>
+
+<td>
+<span class="delete"
+onclick="deleteStudent(${s.id})">
+Delete
+</span>
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("studentTable").innerHTML=st;
+
+
+/* Staff */
+
+let sf="";
+
+staff.forEach((s,i)=>{
+
+sf+=`
+
+<tr>
+
+<td>${i+1}</td>
+<td>${s.name}</td>
+<td>${s.role}</td>
+<td>${s.department}</td>
+<td>₹${s.salary}</td>
+
+<td>
+<span class="delete"
+onclick="deleteStaff(${s.id})">
+Delete
+</span>
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("staffTable").innerHTML=sf;
+
+
+/* Salary */
+
+let sl="";
+
+staff.forEach(s=>{
+
+sl+=`
+
+<tr>
+<td>${s.name}</td>
+<td>${s.role}</td>
+<td>${s.department}</td>
+<td>₹${s.salary}</td>
+</tr>
+
+`;
+
+});
+
+document.getElementById("salaryTable").innerHTML=sl;
+
+
+/* Expenses */
+
+let ex="";
+
+expenses.forEach(e=>{
+
+ex+=`
+
+<tr>
+
+<td>${e.title}</td>
+<td>${e.category}</td>
+<td>₹${e.amount}</td>
+
+<td>
+<span class="delete"
+onclick="deleteExpense(${e.id})">
+Delete
+</span>
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("expenseTable").innerHTML=ex;
+
+
+/* Attendance */
+
+let at="";
+
+attendance.forEach(a=>{
+
+at+=`
+
+<tr>
+
+<td>${a.name}</td>
+<td>${a.type}</td>
+<td>${a.status}</td>
+<td>${a.date}</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("attendanceTable").innerHTML=at;
+
+
+/* Dashboard */
+
+document.getElementById("studentCount")
+.innerText=students.length;
+
+document.getElementById("staffCount")
+.innerText=staff.length;
+
+document.getElementById("salaryTotal")
+.innerText=staff.reduce(
+(a,b)=>a+Number(b.salary),0
+);
+
+document.getElementById("expenseTotal")
+.innerText=expenses.reduce(
+(a,b)=>a+Number(b.amount),0
+);
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
