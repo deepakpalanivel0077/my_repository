@@ -1,4 +1,4 @@
-name: Run Website
+name: CI/CD Pipeline
 
 on:
   push:
@@ -6,24 +6,30 @@ on:
       - main
 
 jobs:
-  run-website:
+  build-and-test:
     runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      - name: Start Flask website
+      - name: Test application
+        run: python -m py_compile app.py
+
+      - name: Run website
         run: |
-          python app.py &
+          python app.py > server.log 2>&1 &
           sleep 5
+          cat server.log
           curl http://127.0.0.1:5000
+
+      - name: CI/CD successful
+        run: echo "🎉 Website is running successfully!"
